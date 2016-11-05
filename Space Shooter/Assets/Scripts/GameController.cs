@@ -1,21 +1,38 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GameController : MonoBehaviour {
+public class GameController : MonoBehaviour
+{
 
     public GameObject hazard;
     public Vector3 spawnValues;
+    public int hazardCount;
+    public float spawnWait;
+    public float startWait;
+    public float waveWait;
 
-	// Use this for initialization
-	private void Start () {
-        SpawnWaves();
+    // Use this for initialization
+    private void Start()
+    {
+        StartCoroutine(SpawnWaves());
     }
 
-    private void SpawnWaves()
+    private IEnumerator SpawnWaves()
     {
-        Vector3 spawnPosition = new Vector3(Random.Range(-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
-        Quaternion spawnRotation = Quaternion.identity;
+        yield return new WaitForSeconds(startWait);
 
-        Instantiate(hazard, spawnPosition, spawnRotation);
+        while(true)
+        {
+            for (var i = 0; i < hazardCount; i++)
+            {
+                Vector3 spawnPosition = new Vector3(Random.Range(-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
+                Quaternion spawnRotation = Quaternion.identity;
+
+                Instantiate(hazard, spawnPosition, spawnRotation);
+
+                yield return new WaitForSeconds(spawnWait);
+            }
+            yield return new WaitForSeconds(waveWait);
+        }
     }
 }
