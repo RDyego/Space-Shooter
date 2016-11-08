@@ -62,7 +62,7 @@ public class GameController : MonoBehaviour
         {
             for (var i = 0; i < hazardCount; i++)
             {
-                GameObject hazard = hazards[Random.Range(0,hazards.Length-1)];
+                GameObject hazard = hazards[Random.Range(0,hazards.Length)];
                 Vector3 spawnPosition = new Vector3(Random.Range(-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
                 Quaternion spawnRotation = Quaternion.identity;
 
