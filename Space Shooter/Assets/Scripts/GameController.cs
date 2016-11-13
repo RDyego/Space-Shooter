@@ -62,11 +62,24 @@ public class GameController : MonoBehaviour
         {
             for (var i = 0; i < hazardCount; i++)
             {
+                bool flag = (Random.value > 0.5f);
+                Debug.Log(Random.value);
+                Debug.Log(flag);
+                if (flag)
+                {
+                    //spawnValues.z = -spawnValues.z;
+                }
+
                 GameObject hazard = hazards[Random.Range(0,hazards.Length)];
                 Vector3 spawnPosition = new Vector3(Random.Range(-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
                 Quaternion spawnRotation = Quaternion.identity;
 
-                Instantiate(hazard, spawnPosition, spawnRotation);
+                GameObject clone = Instantiate(hazard, spawnPosition, spawnRotation) as GameObject;
+
+                if (flag)
+                {
+                    //ReverseDiretion(clone);
+                }
 
                 yield return new WaitForSeconds(spawnWait);
             }
@@ -78,6 +91,16 @@ public class GameController : MonoBehaviour
                 break;
             }
         }
+    }
+
+    private void ReverseDiretion(GameObject clone)
+    {
+        //clone.transform.Rotate(new Vector3(0, 180, 0));
+        Rigidbody rb = clone.GetComponent<Rigidbody>();
+        Mover mover = clone.GetComponent<Mover>();
+
+        rb.rotation = Quaternion.Euler(0.0f, rb.velocity.x * -10, 0.0f);
+        mover.speed = -mover.speed;
     }
 
     private void UpdateScore()
